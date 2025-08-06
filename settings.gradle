@@ -21,3 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "AndroidInterViewDemo"
 include ':app'
+include ':mvvm_study'
+include ':kotlin_study'
+include ':jetpack_study'
