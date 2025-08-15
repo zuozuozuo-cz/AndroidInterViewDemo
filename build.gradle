@@ -22,5 +22,20 @@ plugins {
 
 // 全局版本号
 ext {
-    arouter_version = "1.5.2"
+    versions = [
+            // AndroidX
+            coreKtx     : "1.12.0",
+            appcompat   : "1.7.0",
+            material   : "1.11.0",
+
+            // 网络
+            retrofit   : "2.9.0",
+            okhttp     : "4.11.0",
+
+            // 图片
+            glide      : "4.16.0",
+
+            // 路由
+            arouter    : "1.5.2"
+    ]
 }

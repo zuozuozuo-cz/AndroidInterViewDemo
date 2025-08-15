@@ -14,14 +14,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        findViewById<TextView>(R.id.text).setOnClickListener{
-            val path = "/mvvm_study/main"
-            val result = ARouter.getInstance().build(path).navigation()
-            if (result == null) {
-                Log.e("ARouter", "$path 路由未注册！")
-            } else {
-                Log.d("ARouter", "$path 路由已注册！")
-            }
+        findViewById<TextView>(R.id.text).setOnClickListener {
 
             ARouter.getInstance()
                 .build("/mvvm_study/main")

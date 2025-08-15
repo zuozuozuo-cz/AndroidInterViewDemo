@@ -51,7 +51,8 @@ dependencies {
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core
 
-    implementation "com.alibaba:arouter-api:$arouter_version"
-    kapt "com.alibaba:arouter-compiler:$arouter_version"
+//    implementation "com.alibaba:arouter-api:$arouter_version"
+//    kapt "com.alibaba:arouter-compiler:$arouter_version"
+    implementation project(":base_lib")
     implementation project(":mvvm_study")
 }
