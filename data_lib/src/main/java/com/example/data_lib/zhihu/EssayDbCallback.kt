@@ -4,19 +4,13 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.base_lib.architecture.AbsDbCallback
 
 class EssayDbCallback : AbsDbCallback() {
-    override fun create(db: SupportSQLiteDatabase) {
-        TODO("Not yet implemented")
+    override fun onCreate(db: SupportSQLiteDatabase) {
+        // 文章表创建后初始化逻辑
     }
 
-    override fun open() {
-        TODO("Not yet implemented")
+    override fun onUpgrade(db: SupportSQLiteDatabase, oldVersion: Int, newVersion: Int) {
+        // 文章表升级后，初始化逻辑
     }
 
-    override fun upgrade(
-        db: SupportSQLiteDatabase,
-        oldVersion: Int,
-        newVersion: Int
-    ) {
-        TODO("Not yet implemented")
-    }
+    // 不需要重写 onOpen 除非有特殊逻辑
 }

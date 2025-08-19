@@ -2,6 +2,8 @@ package com.example.data_lib.zhihu
 
 import android.content.Context
 import androidx.annotation.VisibleForTesting
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.Database
 import androidx.room.DatabaseConfiguration
 import androidx.room.InvalidationTracker
@@ -10,8 +12,11 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
+import com.example.base_lib.architecture.DbCallbackHelper
 import com.example.base_lib.executors.AppExecutors
 import com.example.data_lib.zhihu.converter.DateConverter
+import com.example.data_lib.zhihu.dao.EssayDao
+import com.example.data_lib.zhihu.dao.ZhihuDao
 import com.example.data_lib.zhihu.entity.EssayDayEntity
 import com.example.data_lib.zhihu.entity.ZhihuItemEntity
 
@@ -21,44 +26,70 @@ import com.example.data_lib.zhihu.entity.ZhihuItemEntity
     exportSchema = true
 )
 @TypeConverters(DateConverter::class)
-class AppDB : RoomDatabase() {
+abstract class AppDB : RoomDatabase() {
+    //提供文章DAO访问接口
+    abstract fun essayDao(): EssayDao
 
-    companion object{
+    abstract fun zhihuDao(): ZhihuDao
+
+    //数据库创建状态
+    private val _isDatabaseCreate = MutableLiveData<Boolean>()
+    val databaseCreated: LiveData<Boolean> = _isDatabaseCreate
+
+    companion object {
         @Volatile
-        private val sInstance: AppDB? = null
+        private var sInstance: AppDB? = null// 单例
 
         @VisibleForTesting
         const val DATABSE_NAME: String = "canking.db"
 
-        fun getInstance(context: Context,executors: AppExecutors): AppDB{
-            return Room.databaseBuilder(context, AppDB::class.java,DATABSE_NAME)
-                .addCallback(object : Callback(){
+        fun getInstance(context: Context, executors: AppExecutors): AppDB {
+            return sInstance ?: synchronized(this){
+                sInstance?:buildDatabase(context.applicationContext,executors).also{
+                    sInstance = it
+
+                }
+            }
+        }
+
+        private fun buildDatabase(applicationContext: Context, executors: AppExecutors): AppDB {
+            return Room.databaseBuilder(applicationContext,AppDB::class.java, DATABSE_NAME)
+                .addCallback(object :RoomDatabase.Callback(){
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
-                        executors.diskIO.execute {
-                            // 模拟耗时操作
+                        executors.diskIO.execute{
                             addDelay()
 
-                            val instance = getInstance(context, executors)
+                            val database = getInstance(applicationContext, executors)
 
+                            DbCallbackHelper.dispatchOnCreate(db)
 
+                            database.setDatabaseCreated()
                         }
                     }
                 })
-                .addMigrations()
+                .addMigrations(*DbCallbackHelper.getUpdateConfig())
                 .build()
+        }
+
+        private fun addDelay() {
+            try {
+                Thread.sleep(4000)
+            }catch (ignored:InterruptedException){
+
+            }
         }
     }
 
-    override fun clearAllTables() {
-        TODO("Not yet implemented")
+    private fun updateDatebaseCreated(context: Context){
+        if (context.getDatabasePath(DATABSE_NAME).exists()){
+            setDatabaseCreated()
+        }
     }
 
-    override fun createInvalidationTracker(): InvalidationTracker {
-        TODO("Not yet implemented")
+    private fun setDatabaseCreated(){
+        _isDatabaseCreate.postValue(true)
     }
 
-    override fun createOpenHelper(config: DatabaseConfiguration): SupportSQLiteOpenHelper {
-        TODO("Not yet implemented")
-    }
+
 }

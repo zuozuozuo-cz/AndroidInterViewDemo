@@ -2,10 +2,17 @@ package com.example.base_lib.architecture
 
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-abstract class AbsDbCallback {
-    abstract fun create(db: SupportSQLiteDatabase)
+// 提供默认实现的抽象类
+abstract class AbsDbCallback:IDbCallback {
+    override fun onCreate(db: SupportSQLiteDatabase) {
+        TODO("Not yet implemented")
+    }
 
-    abstract fun open()
+    override fun onUpgrade(db: SupportSQLiteDatabase, oldVersion: Int, newVersion: Int) {
+        TODO("Not yet implemented")
+    }
 
-    abstract fun upgrade(db: SupportSQLiteDatabase, oldVersion: Int, newVersion: Int)
+    override fun onOpen(db: SupportSQLiteDatabase) {
+        TODO("Not yet implemented")
+    }
 }
