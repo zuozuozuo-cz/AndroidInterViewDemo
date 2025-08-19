@@ -7,11 +7,11 @@ import java.util.concurrent.Executors
 
 class AppExecutors (
     // 磁盘 IO 线程，默认单线程执行任务
-    private val diskIO: Executor = Executors.newSingleThreadExecutor(),
+    val diskIO: Executor = Executors.newSingleThreadExecutor(),
     // 网络 IO 线程，默认规定线程池 3个线程
-    private  val  netWorkIO: Executor = Executors.newFixedThreadPool(3),
+    val  netWorkIO: Executor = Executors.newFixedThreadPool(3),
     // 主线程 executor 用于在 UI线程中执行任务
-    private val mainThread: Executor = MainThreadExecutor()
+    val mainThread: Executor = MainThreadExecutor()
 ){
 
 
