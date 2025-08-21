@@ -17,7 +17,7 @@ interface ZhihuDao {
      *
      * @return LiveData 包装的最新知乎文章实体，可观察数据变化
      */
-    @Query("SELECT * FROM zhihulist ORDER BY id DESC LIMIT 1")
+    @Query("SELECT * FROM zhihulist ORDER BY id DESC LIMIT 0,1")
     fun loadLatestZhihuItem(): LiveData<ZhihuItemEntity?>
 
     /**
