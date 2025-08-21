@@ -72,10 +72,19 @@ class NetEngine private constructor() {
         builder.addInterceptor(httpLoggingInterceptor)
 
         // 配置超时设置
-        builder.connectTimeout(20,TimeUnit.SECONDS)
-        builder.writeTimeout(20,TimeUnit.SECONDS)
-        builder.readTimeout(20,TimeUnit.SECONDS)
+        builder.connectTimeout(20, TimeUnit.SECONDS)
+        builder.writeTimeout(20, TimeUnit.SECONDS)
+        builder.readTimeout(20, TimeUnit.SECONDS)
         builder.retryOnConnectionFailure(true)//允许连接失败重试
         return builder.build()
+    }
+
+    /**
+     * 创建API服务实例
+     * @param serviceClass API服务接口类
+     * @return API服务实例
+     */
+    fun <T> createService(serviceClass: Class<T>): T {
+        return retrofit.create(serviceClass)
     }
 }

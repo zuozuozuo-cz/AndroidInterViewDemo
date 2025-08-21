@@ -5,6 +5,7 @@ import com.alibaba.android.arouter.BuildConfig
 import com.alibaba.android.arouter.launcher.ARouter
 import com.example.base_lib.architecture.DbCallbackHelper
 import com.example.base_lib.executors.AppExecutors
+import com.example.data_lib.zhihu.AppDB
 import com.example.data_lib.zhihu.EssayDbCallback
 
 class MyApp : Application() {
@@ -28,6 +29,7 @@ class MyApp : Application() {
     private fun initDatabaseCallbacks() {
         DbCallbackHelper.registerCallbacks(EssayDbCallback())
     }
+
 
     // companion object  是kotlin的静态对象 相当于 Java 的static
     companion object {
