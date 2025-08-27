@@ -63,6 +63,7 @@ dependencies {
     api("com.squareup.okhttp3:okhttp:${rootProject.ext.versions.okhttp}")
     api("com.squareup.okhttp3:logging-interceptor:${rootProject.ext.versions.okhttp}")
 
+
     // ===== 图片加载 =====
     api("com.github.bumptech.glide:glide:${rootProject.ext.versions.glide}")
     kapt("com.github.bumptech.glide:compiler:${rootProject.ext.versions.glide}")
@@ -70,6 +71,9 @@ dependencies {
     // ===== 路由 =====
     api("com.alibaba:arouter-api:${rootProject.ext.versions.arouter}")
     kapt("com.alibaba:arouter-compiler:${rootProject.ext.versions.arouter}")
+
+    // ===== ui =====
+    api("io.github.cymchad:BaseRecyclerViewAdapterHelper:${rootProject.ext.versions.baserecyclerviewadapterhelper}")
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat

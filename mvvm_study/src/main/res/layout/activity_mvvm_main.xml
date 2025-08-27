@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".MvvmMainActivity">
 
     <TextView
@@ -13,7 +14,12 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="12dp"
+        android:textStyle="bold"
+        android:textSize="20dp"
         android:text="MVVM Demo"
         />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

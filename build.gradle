@@ -24,35 +24,38 @@ plugins {
 ext {
     versions = [
             // Jetpack Lifecycle
-            lifecycle      : "2.6.2",   // 包含 livedata / viewmodel / runtime-ktx
+            lifecycle                    : "2.6.2",   // 包含 livedata / viewmodel / runtime-ktx
 
             // Jetpack Navigation
-            navigation     : "2.7.6",
+            navigation                   : "2.7.6",
 
             // Jetpack Room
-            room           : "2.6.1",
+            room                         : "2.6.1",
 
             // Jetpack WorkManager
-            work           : "2.9.0",
+            work                         : "2.9.0",
 
             // Jetpack Paging
-            paging         : "3.2.1",
+            paging                       : "3.2.1",
 
             // Jetpack DataStore
-            datastore      : "1.1.0",
+            datastore                    : "1.1.0",
             // AndroidX
-            coreKtx     : "1.12.0",
-            appcompat   : "1.7.0",
-            material   : "1.11.0",
+            coreKtx                      : "1.12.0",
+            appcompat                    : "1.7.0",
+            material                     : "1.11.0",
 
             // 网络
-            retrofit   : "2.9.0",
-            okhttp     : "4.11.0",
+            retrofit                     : "2.9.0",
+            okhttp                       : "4.11.0",
 
             // 图片
-            glide      : "4.16.0",
+            glide                        : "4.16.0",
 
             // 路由
-            arouter    : "1.5.2"
+            arouter                      : "1.5.2",
+
+            // ui
+            baserecyclerviewadapterhelper: "3.0.14"
     ]
 }
