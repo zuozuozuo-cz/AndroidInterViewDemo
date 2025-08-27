@@ -78,3 +78,8 @@ dependencies {
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core
 }
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.name)
+    }
+}

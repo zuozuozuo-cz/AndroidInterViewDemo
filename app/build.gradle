@@ -57,3 +57,8 @@ dependencies {
     implementation project(":data_lib")
     implementation project(":mvvm_study")
 }
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}

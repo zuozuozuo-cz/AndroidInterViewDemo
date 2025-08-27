@@ -5,16 +5,35 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="20dp"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/rl_home_title"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello Zuo!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="首页列表"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            />
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="20dp"
+        android:id="@+id/recyclerview"
+        app:layout_constraintTop_toBottomOf="@+id/rl_home_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
