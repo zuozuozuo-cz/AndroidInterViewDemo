@@ -9,9 +9,13 @@ import com.example.data_lib.zhihu.AppDB
 import com.example.data_lib.zhihu.EssayDbCallback
 
 class MyApp : Application() {
+    val appExecutors by lazy {
+        AppExecutors()
+    }
 
-    lateinit var appExecutors: AppExecutors
-        private set // 只允许MyApp 内部赋值
+    val database by lazy {
+        AppDB.getInstance(this,appExecutors)
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -20,8 +24,6 @@ class MyApp : Application() {
             ARouter.openDebug()
         }
         ARouter.init(this)
-
-        appExecutors = AppExecutors()
         initDatabaseCallbacks()
 
     }

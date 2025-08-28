@@ -56,6 +56,7 @@ ext {
             arouter                      : "1.5.2",
 
             // ui
-            baserecyclerviewadapterhelper: "3.0.14"
+            baserecyclerviewadapterhelper: "3.0.14",
+            fragment                     : "1.6.1"
     ]
 }

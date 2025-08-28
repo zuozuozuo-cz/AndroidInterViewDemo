@@ -11,13 +11,22 @@ import com.example.data_lib.zhihu.dao.ZhihuDao
 import com.example.data_lib.zhihu.entity.ZhihuItemEntity
 import com.example.data_lib.zhihu.net.EssayWebService
 
-class EssayRepository(private val zhihuDao: ZhihuDao, private val appExecutors: AppExecutors) :
-    AbsRepository() {
+class EssayRepository(private val zhihuDao: ZhihuDao,
+                      private val appExecutors: AppExecutors) : AbsRepository() {
 
     private val api: EssayWebService =
         NetEngine.getInstance().createService(EssayWebService::class.java)
 
-    fun laodEssayData(): LiveData<Resource<ZhihuItemEntity>> {
+    companion object{
+        @Volatile
+        private var instance:EssayRepository? = null
+        fun getInstance(dao: ZhihuDao,executors: AppExecutors):EssayRepository =
+            instance ?: EssayRepository(dao,executors).also {
+                instance = it
+            }
+    }
+
+    fun laodEssayData(): MediatorLiveData<Resource<ZhihuItemEntity>> {
         val result = MediatorLiveData<Resource<ZhihuItemEntity>>()
         // 先从缓存中取
         val dbSource: LiveData<ZhihuItemEntity?> = zhihuDao.loadLatestZhihuItem()
@@ -46,6 +55,10 @@ class EssayRepository(private val zhihuDao: ZhihuDao, private val appExecutors: 
         }
 
         return result
+    }
+
+    fun update():MediatorLiveData<Resource<ZhihuItemEntity>>{
+        return laodEssayData()
     }
 
 }

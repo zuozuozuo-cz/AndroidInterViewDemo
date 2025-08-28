@@ -74,6 +74,7 @@ dependencies {
 
     // ===== ui =====
     api("io.github.cymchad:BaseRecyclerViewAdapterHelper:${rootProject.ext.versions.baserecyclerviewadapterhelper}")
+    api ("androidx.fragment:fragment-ktx:${rootProject.ext.versions.fragment}") // 版本根据项目调整
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
