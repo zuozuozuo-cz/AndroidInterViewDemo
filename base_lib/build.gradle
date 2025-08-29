@@ -53,9 +53,9 @@ dependencies {
     // =====================
     // Room
     // =====================
-    api "androidx.room:room-runtime:${versions.room}"
-    api "androidx.room:room-ktx:${versions.room}"
-    kapt "androidx.room:room-compiler:${versions.room}"
+//    api "androidx.room:room-runtime:${versions.room}"
+//    api "androidx.room:room-ktx:${versions.room}"
+//    kapt "androidx.room:room-compiler:${versions.room}"
 
     // ===== 网络相关 =====
     api("com.squareup.retrofit2:retrofit:${rootProject.ext.versions.retrofit}")

@@ -10,8 +10,6 @@ import org.json.JSONException
 import java.sql.Date
 
 class DateConverter {
-
-
     /**
      * 使用lazy 委托实现延迟初始化：
      * 1、线程安全：默认情况下，lazy是同步的，确保多线程环境下只初始化一次

@@ -10,12 +10,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.base_lib.constant.Constant
+import com.example.base_lib.executors.AppExecutors
 import com.example.base_lib.net.Resource
 import com.example.base_lib.net.Status
 import com.example.base_lib.viewmodel.BaseViewModelFactory
+import com.example.data_lib.zhihu.AppDB
+import com.example.data_lib.zhihu.dao.ZhihuDao
 import com.example.data_lib.zhihu.entity.ZhihuItemEntity
 import com.example.data_lib.zhihu.repository.EssayRepository
 import com.example.mvvm_study.R
@@ -32,12 +36,30 @@ class EssayFragment : Fragment() {
     private lateinit var mListView: RecyclerView
     private lateinit var refreshLayout: SwipeRefreshLayout
     private lateinit var mAdapter: EssayListAdapter
-    private val viewModel: EssayViewModel by viewModels()
-//    val factory = BaseViewModelFactory(
-//        mapOf(
-//            EssayViewModel::class.java to (EssayViewModel())
-//        )
-//    )
+
+    //    private val viewModel: EssayViewModel by viewModels()
+    private val repository: EssayRepository by lazy {
+        EssayRepository(
+            AppDB.getInstance(requireActivity(), AppExecutors()).zhihuDao(),
+            AppExecutors()
+        )
+    }
+
+    private val factory = BaseViewModelFactory(
+        mapOf(
+            EssayViewModel::class.java to {
+                EssayViewModel(
+                    requireActivity().application,
+                    repository
+                )
+            }
+        )
+    )
+
+    private val viewModel: EssayViewModel by lazy {
+        ViewModelProvider(this,factory).get(EssayViewModel::class.java)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

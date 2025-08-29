@@ -3,7 +3,7 @@ package com.example.androidinterviewdemo.app
 import android.app.Application
 import com.alibaba.android.arouter.BuildConfig
 import com.alibaba.android.arouter.launcher.ARouter
-import com.example.base_lib.architecture.DbCallbackHelper
+import com.example.data_lib.zhihu.architecture.DbCallbackHelper
 import com.example.base_lib.executors.AppExecutors
 import com.example.data_lib.zhihu.AppDB
 import com.example.data_lib.zhihu.EssayDbCallback

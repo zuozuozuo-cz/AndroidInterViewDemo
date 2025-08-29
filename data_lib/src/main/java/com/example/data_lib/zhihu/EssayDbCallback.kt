@@ -1,7 +1,7 @@
 package com.example.data_lib.zhihu
 
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.base_lib.architecture.AbsDbCallback
+import com.example.data_lib.zhihu.architecture.AbsDbCallback
 
 class EssayDbCallback : AbsDbCallback() {
     override fun onCreate(db: SupportSQLiteDatabase) {

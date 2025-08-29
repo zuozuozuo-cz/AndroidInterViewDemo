@@ -5,14 +5,11 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.room.Database
-import androidx.room.DatabaseConfiguration
-import androidx.room.InvalidationTracker
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
-import androidx.sqlite.db.SupportSQLiteOpenHelper
-import com.example.base_lib.architecture.DbCallbackHelper
+import com.example.data_lib.zhihu.architecture.DbCallbackHelper
 import com.example.base_lib.executors.AppExecutors
 import com.example.data_lib.zhihu.converter.DateConverter
 import com.example.data_lib.zhihu.dao.EssayDao
@@ -47,7 +44,6 @@ abstract class AppDB : RoomDatabase() {
             return sInstance ?: synchronized(this){
                 sInstance?:buildDatabase(context.applicationContext,executors).also{
                     sInstance = it
-
                 }
             }
         }
