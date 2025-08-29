@@ -72,7 +72,6 @@ class MvvmMainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_mvvm_main)
         initFragments()
-
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.mvvm_bottomnavigationview)
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }

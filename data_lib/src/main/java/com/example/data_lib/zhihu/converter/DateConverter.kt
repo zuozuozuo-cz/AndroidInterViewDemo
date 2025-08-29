@@ -44,13 +44,30 @@ class DateConverter {
             if (jsonString.isNullOrBlank()) return emptyList()
 
             return try {
-                val jsonArray = JSONArray(jsonString)
-                List(jsonArray.length()) { index ->
-                    gson.fromJson(
-                        jsonArray.getJSONArray(index).toString(),
-                        ZhihuStoriesEntity::class.java
-                    )
+                val trim = jsonString.trim()
+                when {
+                    trim.startsWith("[") -> {
+                        val jsonArray = JSONArray(jsonString)
+                        List(jsonArray.length()) { index ->
+                            val itemString = jsonArray.getString(index)
+                            gson.fromJson(
+//                                jsonArray.getJSONArray(index).toString(),
+//                                jsonArray.getJSONObject(index).toString(),
+                                itemString,
+                                ZhihuStoriesEntity::class.java
+                            )
+                        }
+                    }
+
+                    trim.startsWith("{") -> {
+                        listOf(gson.fromJson(trim, ZhihuStoriesEntity::class.java))
+                    }
+
+                    else -> {
+                        emptyList()
+                    }
                 }
+
             } catch (e: JSONException) {
                 Log.e("DateConverter", "JSON解析失败", e)
                 emptyList()
