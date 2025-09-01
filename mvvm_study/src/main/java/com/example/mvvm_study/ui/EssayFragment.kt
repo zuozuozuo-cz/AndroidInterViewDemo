@@ -30,7 +30,7 @@ class EssayFragment : Fragment() {
 
     companion object {
         const val TAG = Constant.COMMON_TAG + "EssayFragment"
-        const val TYPE_BASE = 0
+        const val TYPE_BASE = 1
     }
 
     private lateinit var mListView: RecyclerView
@@ -57,7 +57,7 @@ class EssayFragment : Fragment() {
     )
 
     private val viewModel: EssayViewModel by lazy {
-        ViewModelProvider(this,factory).get(EssayViewModel::class.java)
+        ViewModelProvider(this, factory).get(EssayViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -114,7 +114,8 @@ class EssayFragment : Fragment() {
             list.add(EssayListAdapter.MultiItem(it, TYPE_BASE))
         }
 
-        mAdapter.data = list
+//        mAdapter.data = list
+        mAdapter.setList(list)
 
         // 添加生命周期观察者示例（空实现）
         lifecycle.addObserver(object : LifecycleObserver {
@@ -133,12 +134,13 @@ class EssayFragment : Fragment() {
         }
         // 初始化适配器
         mAdapter = EssayListAdapter(requireActivity(), mutableListOf())
-        mAdapter.onAttachedToRecyclerView(mListView)
+//        mAdapter.onAttachedToRecyclerView(mListView)
         mAdapter.addFooterView(footView)
         mAdapter.animationEnable = true
         mAdapter.setOnItemClickListener { _, _, _ ->
 
         }
+        mListView.adapter = mAdapter
         refreshLayout.setProgressViewOffset(
             false, 0, TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, 28f, resources.displayMetrics
