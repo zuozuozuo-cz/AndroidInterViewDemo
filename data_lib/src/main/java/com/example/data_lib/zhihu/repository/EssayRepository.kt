@@ -10,7 +10,7 @@ import com.example.base_lib.executors.AppExecutors
 import com.example.base_lib.net.NetEngine
 import com.example.base_lib.net.Resource
 import com.example.data_lib.zhihu.dao.ZhihuDao
-import com.example.data_lib.zhihu.entity.ZhihuItemEntity
+import com.example.data_lib.zhihu.entity.essay.ZhihuItemEntity
 import com.example.data_lib.zhihu.net.EssayWebService
 
 class EssayRepository(private val zhihuDao: ZhihuDao,

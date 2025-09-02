@@ -14,8 +14,8 @@ import com.example.base_lib.executors.AppExecutors
 import com.example.data_lib.zhihu.converter.DateConverter
 import com.example.data_lib.zhihu.dao.EssayDao
 import com.example.data_lib.zhihu.dao.ZhihuDao
-import com.example.data_lib.zhihu.entity.EssayDayEntity
-import com.example.data_lib.zhihu.entity.ZhihuItemEntity
+import com.example.data_lib.zhihu.entity.essay.EssayDayEntity
+import com.example.data_lib.zhihu.entity.essay.ZhihuItemEntity
 
 @Database(
     entities = [EssayDayEntity::class, ZhihuItemEntity::class],

@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.example.base_lib.net.Resource
-import com.example.data_lib.zhihu.entity.ZhihuItemEntity
+import com.example.data_lib.zhihu.entity.essay.ZhihuItemEntity
 import com.example.data_lib.zhihu.repository.EssayRepository
 
 class EssayViewModel(application: Application, private val repository: EssayRepository) :

@@ -1,7 +1,7 @@
 package com.example.data_lib.zhihu.net
 
 import androidx.annotation.StringDef
-import com.example.data_lib.zhihu.entity.ZhihuItemEntity
+import com.example.data_lib.zhihu.entity.essay.ZhihuItemEntity
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.GET

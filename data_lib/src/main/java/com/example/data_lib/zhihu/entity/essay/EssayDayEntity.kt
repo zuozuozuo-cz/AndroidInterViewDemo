@@ -1,4 +1,4 @@
-package com.example.data_lib.zhihu.entity
+package com.example.data_lib.zhihu.entity.essay
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

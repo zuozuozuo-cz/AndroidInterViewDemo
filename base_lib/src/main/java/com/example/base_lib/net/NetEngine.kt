@@ -15,6 +15,9 @@ import javax.net.ssl.X509TrustManager
 class NetEngine private constructor() {
     private val retrofit: Retrofit
 
+    @Volatile
+    private var baseUrl: String = NetConstant.URL_BASE
+
     companion object {
         private object Holder {
             val INSTANCE = NetEngine()
@@ -27,10 +30,19 @@ class NetEngine private constructor() {
 
     init {
         retrofit = Retrofit.Builder()
-            .baseUrl(NetConstant.URL_BASE)
+            .baseUrl(baseUrl)
             .client(getUnsafeClient())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
+
+    /**
+     * 动态设置baseUrl
+     */
+    fun setBaseUrl(url: String) {
+        if (url.isNotBlank() && url != baseUrl) {
+            baseUrl = url
+        }
     }
 
     private fun getUnsafeClient(): OkHttpClient {
@@ -70,6 +82,22 @@ class NetEngine private constructor() {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         builder.addInterceptor(httpLoggingInterceptor)
+
+        builder.addInterceptor { chain ->
+            // 获取原始请求
+            val request = chain.request()
+            // 获取原始请求URL
+            val oldUrl = request.url
+            val newUrl = oldUrl.newBuilder()
+                .scheme(baseUrl.substringBefore("://"))//替换协议 http/https
+                .host(baseUrl.substringAfter("://").substringBefore("/"))// 替换域名
+                .build()
+            // 构建新的请求，将URL 替换成 newURL
+            val newRequest = request.newBuilder()
+                .url(newUrl)
+                .build()
+            chain.proceed(newRequest)
+        }
 
         // 配置超时设置
         builder.connectTimeout(20, TimeUnit.SECONDS)

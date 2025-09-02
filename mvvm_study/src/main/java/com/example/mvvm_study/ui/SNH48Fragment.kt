@@ -30,10 +30,10 @@ class SNH48Fragment : Fragment() {
         val view = inflater.inflate(R.layout.snh48_fragment, container, false)
         mListView = view.findViewById(R.id.recyclerView)
         refreshLayout = view.findViewById(R.id.refresh)
-        view.findViewById<Button>(R.id.btn_share).setOnClickListener {
-            val path = "/storage/emulated/0/Pictures/1756802848754.jpg"
-            ImageUtils.openImage(requireActivity(),path)
-        }
+//        view.findViewById<Button>(R.id.btn_share).setOnClickListener {
+//            val path = "/storage/emulated/0/Pictures/1756802848754.jpg"
+//            ImageUtils.openImage(requireActivity(),path)
+//        }
         initView()
         subcribeUI()
         return view

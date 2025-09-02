@@ -1,4 +1,4 @@
-package com.example.data_lib.zhihu.entity
+package com.example.data_lib.zhihu.entity.essay
 
 import com.example.data_lib.zhihu.model.IEssayItem
 import com.google.gson.annotations.SerializedName
