@@ -1,10 +1,12 @@
 package com.example.mvvm_study.ui
 
+import ImageUtils
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -28,6 +30,10 @@ class SNH48Fragment : Fragment() {
         val view = inflater.inflate(R.layout.snh48_fragment, container, false)
         mListView = view.findViewById(R.id.recyclerView)
         refreshLayout = view.findViewById(R.id.refresh)
+        view.findViewById<Button>(R.id.btn_share).setOnClickListener {
+            val path = "/storage/emulated/0/Pictures/1756802848754.jpg"
+            ImageUtils.openImage(requireActivity(),path)
+        }
         initView()
         subcribeUI()
         return view

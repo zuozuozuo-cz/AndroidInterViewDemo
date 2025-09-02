@@ -1,9 +1,11 @@
 package com.example.data_lib.zhihu.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
 import com.example.base_lib.architecture.AbsRepository
+import com.example.base_lib.constant.Constant
 import com.example.base_lib.executors.AppExecutors
 import com.example.base_lib.net.NetEngine
 import com.example.base_lib.net.Resource
@@ -38,6 +40,7 @@ class EssayRepository(private val zhihuDao: ZhihuDao,
             try {
                 kotlinx.coroutines.runBlocking {
                     val response = api.getZhihuList("latest").execute()
+                    Log.e(Constant.COMMON_TAG, "response = $response")
                     if (response.isSuccessful) {
                         response.body()?.let { zhihuItemEntity ->
                             zhihuDao.saveZhihuItem(zhihuItemEntity)
