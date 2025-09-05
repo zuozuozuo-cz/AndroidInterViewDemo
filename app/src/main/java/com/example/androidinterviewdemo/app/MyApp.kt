@@ -3,10 +3,10 @@ package com.example.androidinterviewdemo.app
 import android.app.Application
 import com.alibaba.android.arouter.BuildConfig
 import com.alibaba.android.arouter.launcher.ARouter
-import com.example.data_lib.zhihu.architecture.DbCallbackHelper
 import com.example.base_lib.executors.AppExecutors
 import com.example.data_lib.zhihu.AppDB
 import com.example.data_lib.zhihu.EssayDbCallback
+import com.example.data_lib.zhihu.base.DbCallbackHelper
 
 class MyApp : Application() {
     val appExecutors by lazy {
@@ -14,7 +14,7 @@ class MyApp : Application() {
     }
 
     val database by lazy {
-        AppDB.getInstance(this,appExecutors)
+        AppDB.getInstance(this, appExecutors)
     }
 
     override fun onCreate() {

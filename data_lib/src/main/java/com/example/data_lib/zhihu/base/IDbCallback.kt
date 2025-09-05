@@ -1,4 +1,4 @@
-package com.example.data_lib.zhihu.architecture
+package com.example.data_lib.zhihu.base
 
 import androidx.sqlite.db.SupportSQLiteDatabase
 

@@ -9,16 +9,18 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.data_lib.zhihu.architecture.DbCallbackHelper
 import com.example.base_lib.executors.AppExecutors
+import com.example.data_lib.zhihu.base.DbCallbackHelper
 import com.example.data_lib.zhihu.converter.DateConverter
 import com.example.data_lib.zhihu.dao.EssayDao
+import com.example.data_lib.zhihu.dao.SnhDao
 import com.example.data_lib.zhihu.dao.ZhihuDao
 import com.example.data_lib.zhihu.entity.essay.EssayDayEntity
 import com.example.data_lib.zhihu.entity.essay.ZhihuItemEntity
+import com.example.data_lib.zhihu.entity.member.SnhMemberEntity
 
 @Database(
-    entities = [EssayDayEntity::class, ZhihuItemEntity::class],
+    entities = [EssayDayEntity::class, ZhihuItemEntity::class, SnhMemberEntity::class],
     version = 1,
     exportSchema = true
 )
@@ -28,6 +30,8 @@ abstract class AppDB : RoomDatabase() {
     abstract fun essayDao(): EssayDao
 
     abstract fun zhihuDao(): ZhihuDao
+
+    abstract fun snhDao(): SnhDao
 
     //数据库创建状态
     private val _isDatabaseCreate = MutableLiveData<Boolean>()
@@ -41,19 +45,19 @@ abstract class AppDB : RoomDatabase() {
         const val DATABSE_NAME: String = "canking.db"
 
         fun getInstance(context: Context, executors: AppExecutors): AppDB {
-            return sInstance ?: synchronized(this){
-                sInstance?:buildDatabase(context.applicationContext,executors).also{
+            return sInstance ?: synchronized(this) {
+                sInstance ?: buildDatabase(context.applicationContext, executors).also {
                     sInstance = it
                 }
             }
         }
 
         private fun buildDatabase(applicationContext: Context, executors: AppExecutors): AppDB {
-            return Room.databaseBuilder(applicationContext,AppDB::class.java, DATABSE_NAME)
-                .addCallback(object :RoomDatabase.Callback(){
+            return Room.databaseBuilder(applicationContext, AppDB::class.java, DATABSE_NAME)
+                .addCallback(object : RoomDatabase.Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
-                        executors.diskIO.execute{
+                        executors.diskIO.execute {
                             addDelay()
 
                             val database = getInstance(applicationContext, executors)
@@ -71,19 +75,19 @@ abstract class AppDB : RoomDatabase() {
         private fun addDelay() {
             try {
                 Thread.sleep(4000)
-            }catch (ignored:InterruptedException){
+            } catch (ignored: InterruptedException) {
 
             }
         }
     }
 
-    private fun updateDatebaseCreated(context: Context){
-        if (context.getDatabasePath(DATABSE_NAME).exists()){
+    private fun updateDatebaseCreated(context: Context) {
+        if (context.getDatabasePath(DATABSE_NAME).exists()) {
             setDatabaseCreated()
         }
     }
 
-    private fun setDatabaseCreated(){
+    private fun setDatabaseCreated() {
         _isDatabaseCreate.postValue(true)
     }
 

@@ -3,7 +3,7 @@ package com.example.data_lib.zhihu.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.example.base_lib.architecture.AbsRepository
+import com.example.base_lib.repository.AbsRepository
 import com.example.base_lib.constant.Constant
 import com.example.base_lib.executors.AppExecutors
 import com.example.base_lib.net.NetEngine

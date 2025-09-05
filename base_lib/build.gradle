@@ -51,11 +51,14 @@ dependencies {
     api "androidx.navigation:navigation-ui-ktx:${versions.navigation}"
 
     // =====================
-    // Room
+    // Room 使用 compileOnly 或 api 方式提供接口，不包含实现
     // =====================
 //    api "androidx.room:room-runtime:${versions.room}"
 //    api "androidx.room:room-ktx:${versions.room}"
 //    kapt "androidx.room:room-compiler:${versions.room}"
+
+    compileOnly "androidx.room:room-runtime:${versions.room}"
+    compileOnly "androidx.room:room-ktx:${versions.room}"
 
     // ===== 网络相关 =====
     api("com.squareup.retrofit2:retrofit:${rootProject.ext.versions.retrofit}")

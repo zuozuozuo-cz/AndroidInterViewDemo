@@ -1,9 +1,9 @@
-package com.example.data_lib.zhihu.architecture
+package com.example.data_lib.zhihu.base
 
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 // 提供默认实现的抽象类
-abstract class AbsDbCallback: IDbCallback {
+abstract class AbsDbCallback : IDbCallback {
     override fun onCreate(db: SupportSQLiteDatabase) {
         TODO("Not yet implemented")
     }

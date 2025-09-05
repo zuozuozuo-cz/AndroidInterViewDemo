@@ -1,4 +1,4 @@
-package com.example.data_lib.zhihu.architecture
+package com.example.data_lib.zhihu.base
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -15,7 +15,7 @@ object DbCallbackHelper {
     private val mDbCallbacks = Collections.synchronizedList(mutableListOf<IDbCallback>())
 
 
-    fun registerCallbacks(callback: IDbCallback){
+    fun registerCallbacks(callback: IDbCallback) {
         mDbCallbacks.add(callback)
     }
 
@@ -36,18 +36,18 @@ object DbCallbackHelper {
      * 获取数据库迁移配置
      * @return 迁移配置数组
      */
-    fun getUpdateConfig():Array<Migration>{
+    fun getUpdateConfig(): Array<Migration> {
         return arrayOf(
             // 版本1→2的迁移
-            object :Migration(1,2){
+            object : Migration(1, 2) {
                 override fun migrate(db: SupportSQLiteDatabase) {
-                    dispatchUpgrade(db,1,2)
+                    dispatchUpgrade(db, 1, 2)
                 }
             },
             // 版本2→3的迁移
-            object :Migration(2,3){
+            object : Migration(2, 3) {
                 override fun migrate(db: SupportSQLiteDatabase) {
-                    dispatchUpgrade(db,2,3)
+                    dispatchUpgrade(db, 2, 3)
                 }
 
             }

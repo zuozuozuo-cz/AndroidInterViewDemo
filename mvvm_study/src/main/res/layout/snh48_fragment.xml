@@ -20,6 +20,7 @@
     <Button
         android:id="@+id/btn_share"
         android:text="分享"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
