@@ -7,21 +7,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.base_lib.constant.Constant
 import com.example.base_lib.executors.AppExecutors
-import com.example.base_lib.net.Status
+import com.example.base_lib.net.NetEngine
 import com.example.base_lib.viewmodel.BaseViewModelFactory
-import com.example.data_lib.zhihu.AppDB
+import com.example.data_lib.zhihu.DatabaseProvider
 import com.example.data_lib.zhihu.entity.essay.ZhihuItemEntity
 import com.example.data_lib.zhihu.repository.EssayRepository
 import com.example.mvvm_study.R
 import com.example.mvvm_study.ui.adapter.EssayListAdapter
+import com.example.mvvm_study.viewmodel.EssayState
 import com.example.mvvm_study.viewmodel.EssayViewModel
+import kotlinx.coroutines.launch
 
 class EssayFragment : Fragment() {
 
@@ -35,19 +39,24 @@ class EssayFragment : Fragment() {
     private lateinit var mAdapter: EssayListAdapter
 
     //    private val viewModel: EssayViewModel by viewModels()
-    private val repository: EssayRepository by lazy {
-        EssayRepository(
-            AppDB.getInstance(requireActivity(), AppExecutors()).zhihuDao(),
-            AppExecutors()
-        )
-    }
+//    private val repository: EssayRepository by lazy {
+//        EssayRepository(
+//            AppDB.getInstance(requireActivity(), AppExecutors()).zhihuDao(),
+//            AppExecutors(),
+//            netEngine = TODO()
+//        )
+//    }
 
     private val factory = BaseViewModelFactory(
         mapOf(
             EssayViewModel::class.java to {
                 EssayViewModel(
                     requireActivity().application,
-                    repository
+                    EssayRepository(
+                        DatabaseProvider.getZhihuDao(),
+                        AppExecutors(),
+                        NetEngine.getInstance()
+                    )
                 )
             }
         )
@@ -71,34 +80,67 @@ class EssayFragment : Fragment() {
     }
 
     private fun subscribeUi() {
-        viewModel.getEssayData().observe(viewLifecycleOwner, Observer { resources ->
-            resources?.data?.let { data ->
-                when (resources.status) {
-                    Status.SUCCEED -> {
-                        updateUI(data)
-                        Toast.makeText(requireActivity(), "succeed", Toast.LENGTH_LONG).show()
-                    }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
+                    when (state) {
+                        is EssayState.Loading -> {
+                            // 显示加载
+                            refreshLayout.isRefreshing = true
+                        }
 
-                    Status.LOADING -> {
-                        Toast.makeText(
-                            requireActivity(),
-                            "DB loaded ${resources.message}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
 
-                    Status.ERROR -> {
-                        Toast.makeText(requireActivity(), "error", Toast.LENGTH_SHORT).show()
-                    }
+                        is EssayState.Success -> {
+                            // 显示数据 state.essays
+                            refreshLayout.isRefreshing = false
+                            state.essay?.let {
+                                updateUI(it)
+                            }
+                            Toast.makeText(requireActivity(), "succeed", Toast.LENGTH_LONG).show()
+                        }
 
-                    else -> {
-                        Toast.makeText(requireActivity(), "else", Toast.LENGTH_SHORT).show()
+                        is EssayState.Error -> {
+                            // 显示错误 state.message
+                            refreshLayout.isRefreshing = false
+                            Toast.makeText(requireActivity(), "error", Toast.LENGTH_SHORT).show()
+                        }
 
+                        else -> {
+                            refreshLayout.isRefreshing = false
+                            Toast.makeText(requireActivity(), "else", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             }
-            refreshLayout.isRefreshing = false
-        })
+        }
+//        viewModel.getEssayData().observe(viewLifecycleOwner, Observer { resources ->
+//            resources?.data?.let { data ->
+//                when (resources.status) {
+//                    Status.SUCCEED -> {
+//                        updateUI(data)
+//                        Toast.makeText(requireActivity(), "succeed", Toast.LENGTH_LONG).show()
+//                    }
+//
+//                    Status.LOADING -> {
+//                        Toast.makeText(
+//                            requireActivity(),
+//                            "DB loaded ${resources.message}",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    }
+//
+//                    Status.ERROR -> {
+//                        Toast.makeText(requireActivity(), "error", Toast.LENGTH_SHORT).show()
+//                    }
+//
+//                    else -> {
+//                        Toast.makeText(requireActivity(), "else", Toast.LENGTH_SHORT).show()
+//
+//                    }
+//                }
+//            }
+//            refreshLayout.isRefreshing = false
+//        })
     }
 
     private fun updateUI(data: ZhihuItemEntity) {
@@ -145,7 +187,7 @@ class EssayFragment : Fragment() {
         )
         refreshLayout.setOnRefreshListener {
             mListView.postDelayed({
-                viewModel.updateCache()
+                viewModel.refreshEssay()
             }, 2000)
         }
 

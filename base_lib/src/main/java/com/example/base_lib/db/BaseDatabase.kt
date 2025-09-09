@@ -33,21 +33,14 @@ abstract class BaseDatabase : RoomDatabase() {
             context: Context,
             databaseClass: Class<T>,
             executors: AppExecutors,
-            vararg typeConverters: Any
         ): T {
-//            return sInstance as? T ?: synchronized(this) {
-//                sInstance ?: buildDatabase(
-//                    context,
-//                    databaseClass,
-//                    executors,
-//                    *typeConverters
-//                ).also {
-//                    sInstance = it
-//                }
-//            }
             (sInstance as? T)?.let { return it }
             return synchronized(this) {
-                (sInstance as? T) ?: buildDatabase(context, databaseClass, executors).also {
+                (sInstance as? T) ?: buildDatabase(
+                    context,
+                    databaseClass,
+                    executors,
+                ).also {
                     sInstance = it
                 }
             }

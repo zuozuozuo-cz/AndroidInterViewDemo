@@ -18,7 +18,7 @@ interface EssayWebService {
     annotation class EssayType
 
     @GET("article/{type}?dev=1")
-    fun getEssay(@EssayType @Path("type") type: String): Call<ResponseBody>
+    fun getEssay(@EssayType @Path("type") type: String): Call<ZhihuItemEntity>
 
     @GET("news/{type}")
     fun getZhihuList(@Path("type") type: String): Call<ZhihuItemEntity>

@@ -16,7 +16,7 @@ interface EssayDao {
      * @return LiveData 包装的文章实体，可观察数据变化
      */
     @Query("SELECT * FROM essays where dataCurr = :day")
-    fun loadEssayDao(day:String):LiveData<EssayDayEntity?>
+    fun loadEssayDao(day: String): LiveData<EssayDayEntity?>
 
 
     /**
@@ -33,5 +33,5 @@ interface EssayDao {
      * 冲突策略：如果已存在相同主键的记录，则替换
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveEssayItem(entity: EssayDayEntity)
+    fun saveEssayItem(entity: EssayDayEntity)
 }

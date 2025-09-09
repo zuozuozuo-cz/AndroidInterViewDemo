@@ -26,5 +26,5 @@ interface ZhihuDao {
      * 冲突策略：如果已存在相同主键的记录，则替换
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveZhihuItem(itemEntity: ZhihuItemEntity)
+    fun saveZhihuItem(itemEntity: ZhihuItemEntity)
 }

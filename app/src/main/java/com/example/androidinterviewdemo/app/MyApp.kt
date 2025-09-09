@@ -4,17 +4,11 @@ import android.app.Application
 import com.alibaba.android.arouter.BuildConfig
 import com.alibaba.android.arouter.launcher.ARouter
 import com.example.base_lib.executors.AppExecutors
-import com.example.data_lib.zhihu.AppDB
-import com.example.data_lib.zhihu.EssayDbCallback
-import com.example.data_lib.zhihu.base.DbCallbackHelper
+import com.example.data_lib.zhihu.DatabaseProvider
 
 class MyApp : Application() {
     val appExecutors by lazy {
         AppExecutors()
-    }
-
-    val database by lazy {
-        AppDB.getInstance(this, appExecutors)
     }
 
     override fun onCreate() {
@@ -24,12 +18,14 @@ class MyApp : Application() {
             ARouter.openDebug()
         }
         ARouter.init(this)
-        initDatabaseCallbacks()
-
+        initDataBase()
     }
 
-    private fun initDatabaseCallbacks() {
-        DbCallbackHelper.registerCallbacks(EssayDbCallback())
+    private fun initDataBase() {
+        DatabaseProvider.initialize(
+            this,
+            appExecutors,
+        )
     }
 
 

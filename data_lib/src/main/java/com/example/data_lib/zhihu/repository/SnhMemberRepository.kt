@@ -3,7 +3,6 @@ package com.example.data_lib.zhihu.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.example.base_lib.repository.AbsRepository
 import com.example.base_lib.constant.Constant
 import com.example.base_lib.executors.AppExecutors
 import com.example.base_lib.net.NetEngine
@@ -17,8 +16,7 @@ import kotlinx.coroutines.runBlocking
 /**
  * 获取SNH成员数据仓库层
  */
-class SnhMemberRepository(private val memberDao: SnhDao, private val appExecutors: AppExecutors) :
-    AbsRepository() {
+class SnhMemberRepository(private val memberDao: SnhDao, private val appExecutors: AppExecutors) {
 
     private val api: SnhMemberWebService =
         NetEngine.getInstance().createService(SnhMemberWebService::class.java)
