@@ -47,4 +47,8 @@ data class SnhMemberEntity(
     /** 出生地 */
     @SerializedName("birth_place")
     val birthPlace: String? = null
-)
+) {
+    fun getImageUrl(): String {
+        return "https://www.snh48.com/images/member/zp_${sid}.jpg"
+    }
+}

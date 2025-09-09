@@ -11,23 +11,28 @@ import com.example.data_lib.zhihu.repository.SnhMemberRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
 class SnhMemberViewModel(
     application: Application,
     private val memberRepository: SnhMemberRepository
-) :
-    AndroidViewModel(application) {
+) : AndroidViewModel(application) {
     // ui 状态
     private val _uiState = MutableStateFlow<MemberState>(MemberState.Loading)
     val uiState: StateFlow<MemberState> = _uiState.asStateFlow()
+
+    init {
+        loadMembers(Team.SNH48)
+    }
 
     /**
      * 加载数据
      */
     fun loadMembers(team: Team) {
         viewModelScope.launch {
-            memberRepository.loadMembers().asFlow().collect { resource ->
+            memberRepository.loadMembers().asFlow().distinctUntilChanged()
+                .collect { resource ->
                 when (resource.status) {
                     Status.LOADING -> {
                         _uiState.value = MemberState.Loading
