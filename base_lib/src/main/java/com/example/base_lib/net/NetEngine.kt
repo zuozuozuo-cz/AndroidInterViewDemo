@@ -1,5 +1,6 @@
 package com.example.base_lib.net
 
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -16,7 +17,7 @@ class NetEngine private constructor() {
     private val retrofit: Retrofit
 
     @Volatile
-    private var baseUrl: String = NetConstant.URL_BASE
+    private var baseUrl: String = NetConstant.URL_ZHIHU_BASE
 
     companion object {
         private object Holder {
@@ -88,10 +89,16 @@ class NetEngine private constructor() {
             val request = chain.request()
             // 获取原始请求URL
             val oldUrl = request.url
+            val newBaseUrl =
+                baseUrl.toHttpUrlOrNull()
+                    ?: throw IllegalArgumentException("Invalid baseUrl:$baseUrl")
             val newUrl = oldUrl.newBuilder()
-                .scheme(baseUrl.substringBefore("://"))//替换协议 http/https
-                .host(baseUrl.substringAfter("://").substringBefore("/"))// 替换域名
+                .scheme(newBaseUrl.scheme)
+                .host(newBaseUrl.host)
+                .port(newBaseUrl.port)
+                .encodedPath(newBaseUrl.encodedPath + oldUrl.encodedPath.substringAfterLast("/"))
                 .build()
+
             // 构建新的请求，将URL 替换成 newURL
             val newRequest = request.newBuilder()
                 .url(newUrl)

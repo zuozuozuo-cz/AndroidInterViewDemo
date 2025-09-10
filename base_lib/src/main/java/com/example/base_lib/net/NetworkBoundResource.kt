@@ -4,6 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.example.base_lib.executors.AppExecutors
 
+/**
+ * ResultType 数据库 + UI 数据类型
+ * RequestType 网络返回类型
+ */
 abstract class NetworkBoundResource<ResultType, RequestType>(private val appExecutors: AppExecutors) {
 
     //结果 LiveData
@@ -21,6 +25,7 @@ abstract class NetworkBoundResource<ResultType, RequestType>(private val appExec
                 fetchFromNetwork(dbSource)
             } else {
                 // 使用数据库数据
+                result.removeSource(dbSource)
                 result.addSource(dbSource) { newData ->
                     setValue(Resource.success(newData))
                 }

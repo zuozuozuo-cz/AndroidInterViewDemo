@@ -2,7 +2,7 @@ package com.example.data_lib.zhihu.converter
 
 import android.util.Log
 import androidx.room.TypeConverter
-import com.example.data_lib.zhihu.entity.essay.ZhihuStoriesEntity
+import com.example.data_lib.zhihu.entity.ZhihuStoriesEntity
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import org.json.JSONArray

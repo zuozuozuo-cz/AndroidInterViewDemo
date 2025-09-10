@@ -1,6 +1,7 @@
-package com.example.data_lib.zhihu.net
+package com.example.data_lib.member.api
 
-import com.example.data_lib.zhihu.entity.member.SnhMemberEntity
+import com.example.data_lib.member.entity.MemberResponse
+import com.example.data_lib.member.entity.SnhMemberEntity
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -17,7 +18,7 @@ import retrofit2.http.Query
 interface SnhMemberWebService {
 
     @GET("allmembers.php?")
-    fun getMemberList(@Query("gid") gid: Int): Call<List<SnhMemberEntity>>
+    fun getMemberList(@Query("gid") gid: Int): Call<MemberResponse>
 
     @GET("")
     fun getMemberBySid(sid: String): SnhMemberEntity

@@ -1,4 +1,4 @@
-package com.example.data_lib.zhihu.entity.essay
+package com.example.data_lib.zhihu.entity
 
 import com.example.data_lib.zhihu.model.IEssayItem
 import com.google.gson.annotations.SerializedName
@@ -62,7 +62,7 @@ data class ZhihuStoriesEntity(
 
     @SerializedName("date")
     private val rawDate: String = ""    // Kotlin data class 字段最好 immutable
-): IEssayItem{
+) : IEssayItem {
     /**
      * 获取封面图（取第一个）
      */

@@ -1,4 +1,4 @@
-package com.example.data_lib.zhihu.dao
+package com.example.data_lib.member.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
@@ -7,17 +7,17 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.example.data_lib.zhihu.entity.member.SnhMemberEntity
+import com.example.data_lib.member.entity.SnhMemberEntity
 
 @Dao
 interface SnhDao {
 
     // 插入数据，若主键冲突则替换
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.Companion.REPLACE)
     fun insert(memberEntity: SnhMemberEntity): Long
 
     // 批量插入，主键冲突替换
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.Companion.REPLACE)
     fun insertAll(memberEntitys: List<SnhMemberEntity>): List<Long>
 
     @Update // 更新数据，以主键来匹配

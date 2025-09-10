@@ -2,18 +2,25 @@ package com.example.mvvm_study.ui.adapter
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.util.Log
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import com.example.data_lib.zhihu.entity.member.SnhMemberEntity
+import com.example.base_lib.constant.Constant
+import com.example.data_lib.member.entity.SnhMemberEntity
 import com.example.mvvm_study.R
-import com.example.mvvm_study.ui.adapter.EssayListAdapter.MultiItem
 
 class SNHListAdapter(private val mContext: Context, data: MutableList<MultiItem>) :
     BaseMultiItemQuickAdapter<SNHListAdapter.MultiItem, BaseViewHolder>(data) {
+
+    init {
+        val layoutId = R.layout.product_item
+        Log.e(Constant.COMMON_TAG, "id:$layoutId")
+        addItemType(EssayListAdapter.MultiItem.TYPE_BASE, layoutId)
+    }
 
 
     override fun convert(holder: BaseViewHolder, item: MultiItem) {
@@ -27,8 +34,8 @@ class SNHListAdapter(private val mContext: Context, data: MutableList<MultiItem>
         }
 
         fun update(context: Context, holder: BaseViewHolder) {
-            when(type){
-                TYPE_BASE->{
+            when (type) {
+                TYPE_BASE -> {
                     // 设置文本信息
                     holder.setText(R.id.item_title, data.sname)
                     holder.setText(R.id.item_time, data.sid)

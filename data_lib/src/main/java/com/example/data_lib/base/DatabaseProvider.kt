@@ -1,9 +1,9 @@
-package com.example.data_lib.zhihu
+package com.example.data_lib.base
 
 import android.content.Context
 import com.example.base_lib.executors.AppExecutors
+import com.example.data_lib.member.dao.SnhDao
 import com.example.data_lib.zhihu.dao.EssayDao
-import com.example.data_lib.zhihu.dao.SnhDao
 import com.example.data_lib.zhihu.dao.ZhihuDao
 
 object DatabaseProvider {

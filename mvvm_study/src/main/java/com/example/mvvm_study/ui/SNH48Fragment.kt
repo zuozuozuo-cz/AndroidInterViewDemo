@@ -13,19 +13,18 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.base_lib.constant.Constant
 import com.example.base_lib.executors.AppExecutors
 import com.example.base_lib.net.NetEngine
 import com.example.base_lib.viewmodel.BaseViewModelFactory
-import com.example.data_lib.zhihu.DatabaseProvider
-import com.example.data_lib.zhihu.entity.member.SnhMemberEntity
-import com.example.data_lib.zhihu.entity.member.Team
-import com.example.data_lib.zhihu.repository.SnhMemberRepository
+import com.example.data_lib.base.DatabaseProvider
+import com.example.data_lib.member.entity.SnhMemberEntity
+import com.example.data_lib.member.entity.Team
+import com.example.data_lib.member.repository.SnhMemberRepository
 import com.example.mvvm_study.R
-import com.example.mvvm_study.ui.EssayFragment.Companion
-import com.example.mvvm_study.ui.adapter.EssayListAdapter
 import com.example.mvvm_study.ui.adapter.SNHListAdapter
 import com.example.mvvm_study.viewmodel.MemberState
 import com.example.mvvm_study.viewmodel.SnhMemberViewModel
@@ -74,6 +73,10 @@ class SNH48Fragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 // 监听发来的flow
                 viewModel.uiState.collect { state ->
+                    Log.e(
+                        Constant.COMMON_TAG,
+                        "SNH48Fragment ======== subcribeUI ======== state:${state}"
+                    )
                     when (state) {
                         is MemberState.Loading -> {
                             refreshLayout.isRefreshing = true
@@ -86,14 +89,14 @@ class SNH48Fragment : Fragment() {
                             }
                         }
 
-                        is MemberState.Error ->{
+                        is MemberState.Error -> {
                             refreshLayout.isRefreshing = false
-                            Toast.makeText(requireActivity(),"error",Toast.LENGTH_LONG).show()
+                            Toast.makeText(requireActivity(), "error", Toast.LENGTH_LONG).show()
                         }
 
                         else -> {
                             refreshLayout.isRefreshing = false
-                            Toast.makeText(requireActivity(),"else",Toast.LENGTH_LONG).show()
+                            Toast.makeText(requireActivity(), "else", Toast.LENGTH_LONG).show()
                         }
                     }
                 }
@@ -102,6 +105,10 @@ class SNH48Fragment : Fragment() {
     }
 
     private fun updateUI(snhMemberEntities: List<SnhMemberEntity>) {
+        Log.e(
+            Constant.COMMON_TAG,
+            "SNH48Fragment ======== updateUI ======== snhMemberEntities:${snhMemberEntities.size}"
+        )
         val list = mutableListOf<SNHListAdapter.MultiItem>()
         snhMemberEntities?.forEach {
             list.add(SNHListAdapter.MultiItem(it, EssayFragment.TYPE_BASE))
@@ -133,6 +140,7 @@ class SNH48Fragment : Fragment() {
         mAdapter.setOnItemClickListener { _, _, _ ->
 
         }
+        mListView.layoutManager = (LinearLayoutManager(requireActivity()))
         mListView.adapter = mAdapter
         refreshLayout.setProgressViewOffset(
             false, 0, TypedValue.applyDimension(

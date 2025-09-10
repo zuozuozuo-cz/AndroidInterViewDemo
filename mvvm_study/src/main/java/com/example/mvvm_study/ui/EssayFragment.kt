@@ -18,8 +18,8 @@ import com.example.base_lib.constant.Constant
 import com.example.base_lib.executors.AppExecutors
 import com.example.base_lib.net.NetEngine
 import com.example.base_lib.viewmodel.BaseViewModelFactory
-import com.example.data_lib.zhihu.DatabaseProvider
-import com.example.data_lib.zhihu.entity.essay.ZhihuItemEntity
+import com.example.data_lib.base.DatabaseProvider
+import com.example.data_lib.zhihu.entity.ZhihuItemEntity
 import com.example.data_lib.zhihu.repository.EssayRepository
 import com.example.mvvm_study.R
 import com.example.mvvm_study.ui.adapter.EssayListAdapter

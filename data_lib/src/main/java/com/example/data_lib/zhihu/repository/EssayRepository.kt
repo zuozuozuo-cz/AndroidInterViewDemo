@@ -7,9 +7,9 @@ import com.example.base_lib.net.ApiResponse
 import com.example.base_lib.net.NetEngine
 import com.example.base_lib.net.NetworkBoundResource
 import com.example.base_lib.net.Resource
+import com.example.data_lib.zhihu.api.EssayWebService
 import com.example.data_lib.zhihu.dao.ZhihuDao
-import com.example.data_lib.zhihu.entity.essay.ZhihuItemEntity
-import com.example.data_lib.zhihu.net.EssayWebService
+import com.example.data_lib.zhihu.entity.ZhihuItemEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

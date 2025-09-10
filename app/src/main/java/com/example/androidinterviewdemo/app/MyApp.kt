@@ -4,7 +4,7 @@ import android.app.Application
 import com.alibaba.android.arouter.BuildConfig
 import com.alibaba.android.arouter.launcher.ARouter
 import com.example.base_lib.executors.AppExecutors
-import com.example.data_lib.zhihu.DatabaseProvider
+import com.example.data_lib.base.DatabaseProvider
 
 class MyApp : Application() {
     val appExecutors by lazy {

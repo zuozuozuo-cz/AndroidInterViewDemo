@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.example.base_lib.net.Status
-import com.example.data_lib.zhihu.entity.essay.ZhihuItemEntity
+import com.example.data_lib.zhihu.entity.ZhihuItemEntity
 import com.example.data_lib.zhihu.repository.EssayRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

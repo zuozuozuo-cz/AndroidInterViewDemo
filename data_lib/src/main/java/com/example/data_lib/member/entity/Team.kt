@@ -1,4 +1,4 @@
-package com.example.data_lib.zhihu.entity.member
+package com.example.data_lib.member.entity
 
 /**
  * 团队枚举
