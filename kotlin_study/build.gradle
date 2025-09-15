@@ -11,3 +11,12 @@ kotlin {
         jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
     }
 }
+
+dependencies {
+    // Kotlin 协程核心库
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0"
+
+    // Android 平台调度器（Main dispatcher 等）
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0"
+
+}
