@@ -17,6 +17,8 @@
             <option value="$PROJECT_DIR$/kotlin_study" />
             <option value="$PROJECT_DIR$/kotlin_study_android" />
             <option value="$PROJECT_DIR$/mvvm_study" />
+            <option value="$PROJECT_DIR$/nav-plugin" />
+            <option value="$PROJECT_DIR$/nav-plugin-runtime" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

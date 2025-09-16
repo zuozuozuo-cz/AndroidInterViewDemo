@@ -7,7 +7,6 @@ import android.view.ViewGroup
 
 class HomeFragment : BaseFragment() {
 
-    lateinit var homeBinding:Lay
 
     override fun onCreateView(
         inflater: LayoutInflater,

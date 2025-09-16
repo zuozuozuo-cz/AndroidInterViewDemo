@@ -1,0 +1,25 @@
+plugins {
+    id 'java-library'
+    alias(libs.plugins.jetbrains.kotlin.jvm)
+}
+
+java {
+    sourceCompatibility JavaVersion.VERSION_11
+    targetCompatibility JavaVersion.VERSION_11
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
+    }
+}
+dependencies {
+    //Groovy DSL
+    implementation gradleApi()
+    implementation("com.android.tools.build:gradle:7.4.1")
+    implementation('commons-io:commons-io:2.6')
+    implementation("org.ow2.asm:asm:9.2")
+    implementation('org.ow2.asm:asm-tree:9.2')
+    implementation('com.squareup:kotlinpoet:1.2.0')
+    implementation project(":nav-plugin-runtime")
+}
