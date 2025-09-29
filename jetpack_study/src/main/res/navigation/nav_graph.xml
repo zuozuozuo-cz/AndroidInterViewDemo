@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph">
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/home_fragment">
+
 
     <fragment
         android:id="@+id/home_fragment"
         android:name="com.example.jetpack_study.fragment.HomeFragment">
         <action
             android:id="@+id/navigation_to_category_fragment"
-            app:destination="@+id/category_fragment">
-        </action>
+            app:destination="@+id/category_fragment"></action>
     </fragment>
 
     <fragment
@@ -17,8 +18,7 @@
         android:name="com.example.jetpack_study.fragment.CategoryFragment">
         <action
             android:id="@+id/navigation_to_tags_fragment"
-            app:destination="@+id/tags_fragment">
-        </action>
+            app:destination="@+id/tags_fragment"></action>
     </fragment>
 
     <fragment
@@ -26,29 +26,26 @@
         android:name="com.example.jetpack_study.fragment.TagsFragment">
         <action
             android:id="@+id/navigation_to_user_fragment"
-            app:destination="@+id/user_fragment">
-        </action>
+            app:destination="@+id/user_fragment"></action>
     </fragment>
 
     <fragment
         android:id="@+id/user_fragment"
         android:name="com.example.jetpack_study.fragment.UserFragment">
-<!--        <action-->
-<!--            android:id="@+id/navigation_to_category_fragment"-->
-<!--            app:destination="@+id/category_fragment">-->
-<!--        </action>-->
-        <deepLink
-            app:action=""
-            app:mimeType=""
-            app:uri=""
-            >
+        <!--        <action-->
+        <!--            android:id="@+id/navigation_to_user_fragment"-->
+        <!--            app:destination="@+id/user_fragment"></action>-->
 
-        </deepLink>
+        <deepLink
+            app:action="com.techme.jetpack.ACTION_USER"
+            app:mimeType="type/video"
+            app:uri="http://com,techme.jetpack/user?phone={phone}"></deepLink>
     </fragment>
 
-    <activity></activity>
-    <dialog></dialog>
-    <navigation></navigation>
+
+    <!--    <activity></activity>-->
+    <!--    <dialog></dialog>-->
+    <!--    <navigation></navigation>-->
 
 </navigation>
 

@@ -17,7 +17,7 @@ import com.example.base_lib.routers.ModuleRoutes
 class MainActivity : AppCompatActivity() {
     var homeItemList = arrayListOf<HomeItemEntity>(
         HomeItemEntity("MVVM 学习", ModuleRoutes.MODULE_MVVM_HOME),
-        HomeItemEntity("JetPack 学习", ""),
+        HomeItemEntity("JetPack 学习", ModuleRoutes.MODULE_JETPACK_HOME),
         HomeItemEntity("Kotlin 学习", ""),
     )
 

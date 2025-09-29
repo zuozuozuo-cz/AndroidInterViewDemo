@@ -40,10 +40,7 @@ dependencies {
     androidTestImplementation libs.androidx.espresso.core
 
     implementation project(':base_lib')
-    // Room runtime + ktx
-    api "androidx.room:room-runtime:${versions.room}"
-    api "androidx.room:room-ktx:${versions.room}"
-
-    // Room 注解处理器
-    kapt "androidx.room:room-compiler:${versions.room}"
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    kapt(libs.room.compiler)
 }

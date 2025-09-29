@@ -38,59 +38,37 @@ dependencies {
     api(libs.androidx.appcompat)
     api(libs.material)
 
-    // =====================
-    // Lifecycle (ViewModel + LiveData + runtime)
-    // =====================
-    api "androidx.lifecycle:lifecycle-runtime-ktx:${versions.lifecycle}"
-    api "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifecycle}"
-    api "androidx.lifecycle:lifecycle-livedata-ktx:${versions.lifecycle}"
+    // Lifecycle
+    api(libs.lifecycle.runtime.ktx)
+    api(libs.lifecycle.viewmodel.ktx)
+    api(libs.lifecycle.livedata.ktx)
 
-    // =====================
     // Navigation
-    // =====================
-    api "androidx.navigation:navigation-fragment-ktx:${versions.navigation}"
-    api "androidx.navigation:navigation-ui-ktx:${versions.navigation}"
+    api(libs.navigation.fragment.ktx)
+    api(libs.navigation.ui.ktx)
 
-    // =====================
-    // Room 使用 compileOnly 或 api 方式提供接口，不包含实现
-    // =====================
-//    api "androidx.room:room-runtime:${versions.room}"
-//    api "androidx.room:room-ktx:${versions.room}"
-//    kapt "androidx.room:room-compiler:${versions.room}"
-    // 基础 Navigation
-    api "androidx.navigation:navigation-fragment-ktx:2.8.2"
-    api "androidx.navigation:navigation-ui-ktx:2.8.2"
+    // Room（示例：只提供接口）
+    compileOnly(libs.room.runtime)
+    compileOnly(libs.room.ktx)
+    kapt(libs.room.compiler)
 
+    // 网络
+    api(libs.retrofit)
+    api(libs.retrofit.converter.gson)
+    api(libs.okhttp)
+    api(libs.okhttp.logging)
 
-    compileOnly "androidx.room:room-runtime:${versions.room}"
-    compileOnly "androidx.room:room-ktx:${versions.room}"
+    // Glide
+    api(libs.glide)
+    kapt(libs.glide.compiler)
 
-    // ===== 网络相关 =====
-    api("com.squareup.retrofit2:retrofit:${rootProject.ext.versions.retrofit}")
-    api("com.squareup.retrofit2:converter-gson:${rootProject.ext.versions.retrofit}")
-    api("com.squareup.okhttp3:okhttp:${rootProject.ext.versions.okhttp}")
-    api("com.squareup.okhttp3:logging-interceptor:${rootProject.ext.versions.okhttp}")
+    // Arouter
+    api(libs.arouter.api)
+    kapt(libs.arouter.compiler)
 
-
-    // ===== 图片加载 =====
-    api("com.github.bumptech.glide:glide:${rootProject.ext.versions.glide}")
-    kapt("com.github.bumptech.glide:compiler:${rootProject.ext.versions.glide}")
-
-    // ===== 路由 =====
-    api("com.alibaba:arouter-api:${rootProject.ext.versions.arouter}")
-    kapt("com.alibaba:arouter-compiler:${rootProject.ext.versions.arouter}")
-
-
-    // ===== ui =====
-    api("io.github.cymchad:BaseRecyclerViewAdapterHelper:${rootProject.ext.versions.baserecyclerviewadapterhelper}")
-    api ("androidx.fragment:fragment-ktx:${rootProject.ext.versions.fragment}") // 版本根据项目调整
-
-    implementation libs.androidx.core.ktx
-    implementation libs.androidx.appcompat
-    implementation libs.material
-    testImplementation libs.junit
-    androidTestImplementation libs.androidx.junit
-    androidTestImplementation libs.androidx.espresso.core
+    // UI
+    api(libs.baserecyclerviewadapterhelper)
+    api(libs.fragment.ktx)
 }
 kapt {
     arguments {

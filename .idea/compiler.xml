@@ -3,6 +3,8 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="11">
       <module name="AndroidInterViewDemo.db_lib" target="21" />
+      <module name="AndroidInterViewDemo.kotlin_study_android" target="21" />
+      <module name="AndroidInterViewDemo.tmdb_lib" target="21" />
     </bytecodeTargetLevel>
   </component>
 </project>

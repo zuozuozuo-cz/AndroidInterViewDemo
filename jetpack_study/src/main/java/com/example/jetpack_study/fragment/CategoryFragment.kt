@@ -6,13 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.jetpack_study.R
+import com.example.jetpack_study.databinding.FragmentCategoryBinding
 
-open class CategoryFragment:Fragment() {
-    private val tagName: String = this::class.java.simpleName
+open class CategoryFragment : BaseFragment() {
+    protected val tagName: String = this::class.java.simpleName
+
+    lateinit var binding: FragmentCategoryBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(tagName, "onCreate")
+        Log.d(tagName, "onCreate" + savedInstanceState?.getString("category"))
     }
 
     override fun onCreateView(
@@ -20,42 +25,21 @@ open class CategoryFragment:Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d(tagName, "onCreateView")
-        return super.onCreateView(inflater, container, savedInstanceState)
+        binding = FragmentCategoryBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        Log.d(tagName, "onViewCreated")
+        binding.btnJumpToTag.setOnClickListener {
+            val navController = findNavController()
+            navController.navigate(R.id.tags_fragment)
+        }
     }
 
-    override fun onStart() {
-        super.onStart()
-        Log.d(tagName, "onStart")
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("category", "我是Category")
     }
 
-    override fun onResume() {
-        super.onResume()
-        Log.d(tagName, "onResume")
-    }
 
-    override fun onPause() {
-        super.onPause()
-        Log.d(tagName, "onPause")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d(tagName, "onStop")
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.d(tagName, "onDestroyView")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d(tagName, "onDestroy")
-    }
 }
