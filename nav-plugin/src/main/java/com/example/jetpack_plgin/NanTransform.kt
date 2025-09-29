@@ -14,13 +14,13 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
-import jdk.internal.org.objectweb.asm.ClassReader.EXPAND_FRAMES
 import org.gradle.api.GradleException
 import org.gradle.api.Project
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.internal.impldep.org.apache.commons.io.FileUtils
 import org.objectweb.asm.AnnotationVisitor
 import org.objectweb.asm.ClassReader
+import org.objectweb.asm.ClassReader.EXPAND_FRAMES
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.Opcodes
 import org.objectweb.asm.tree.AnnotationNode
@@ -28,7 +28,6 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.InputStream
 import java.util.zip.ZipFile
-import com.android.build.gradle.internal.pipeline.TransformManager
 
 
 class NanTransform(val project: Project) : Transform() {
@@ -52,6 +51,13 @@ class NanTransform(val project: Project) : Transform() {
         return "NavTransform"
     }
 
+    override fun getInputTypes(): Set<QualifiedContent.ContentType?>? =
+        mutableSetOf(QualifiedContent.DefaultContentType.CLASSES)
+
+    override fun getScopes(): MutableSet<in QualifiedContent.Scope>? =
+        mutableSetOf(QualifiedContent.Scope.PROJECT, QualifiedContent.Scope.SUB_PROJECTS)
+
+
 //    override fun getInputTypes(): MutableSet<QualifiedContent.ContentType> {
 //        return TransformManager.CONTENT_CLASS
 //    }
@@ -59,7 +65,7 @@ class NanTransform(val project: Project) : Transform() {
 //    override fun getScopes(): MutableSet<in QualifiedContent.Scope> {
 //        return TransformManager.SCOPE_FULL_PROJECT // 作用域
 //    }
-    
+
 
     override fun isIncremental(): Boolean {
         return false //增量编译

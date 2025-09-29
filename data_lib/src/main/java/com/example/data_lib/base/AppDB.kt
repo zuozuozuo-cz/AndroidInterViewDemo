@@ -16,7 +16,7 @@ import com.example.data_lib.zhihu.entity.ZhihuItemEntity
 @Database(
     entities = [EssayDayEntity::class, ZhihuItemEntity::class, SnhMemberEntity::class],
     version = 1,
-    exportSchema = true
+    exportSchema = false
 )
 @TypeConverters(DateConverter::class)
 abstract class AppDB : BaseDatabase() {
