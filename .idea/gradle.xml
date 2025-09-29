@@ -21,7 +21,6 @@
             <option value="$PROJECT_DIR$/nav-plugin-runtime" />
           </set>
         </option>
-        <option name="resolveExternalAnnotations" value="false" />
       </GradleProjectSettings>
     </option>
   </component>

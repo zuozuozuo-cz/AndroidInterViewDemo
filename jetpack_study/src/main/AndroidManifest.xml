@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name=".JetPackStudyMainActivity"
+            android:name=".JetPackMainActivity"
             android:exported="false" />
     </application>
 
