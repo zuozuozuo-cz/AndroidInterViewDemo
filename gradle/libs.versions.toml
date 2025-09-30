@@ -1,9 +1,9 @@
 # 版本
 [versions]
-minSdk = "21"
-targetSdk = "33"
-compileSdk = "33"
-agp = "7.4.1"
+minSdk = "26"
+targetSdk = "35"
+compileSdk = "35"
+agp = "8.8.0"
 kotlin = "1.9.24"
 coreKtx = "1.15.0"
 junit = "4.13.2"
