@@ -1,28 +1,48 @@
-package com.example.jetpack_plgin
+// NavPlugin.kt
+package com.example.jetpack_plugin.navplugin
 
-import NavTransform
-import com.android.build.gradle.BaseExtension
-import org.gradle.api.GradleException
+import com.android.build.api.variant.AndroidComponentsExtension
+import org.gradle.api.DefaultTask
+
+
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.plugins.ApplicationPlugin
+import java.io.File
+
 
 class NavPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         println("NavPlugin apply......")
-        // 当模块中是否有ApplicationPlugin插件，这个只有App模块才有
-//        val applicationPlugin = project.plugins.findPlugin(ApplicationPlugin::class.java)
-//        assert(applicationPlugin == null)
-//        throw GradleException("NavPlugin can only be applyed to app module")
-        // 注册自定义插件
-//        val baseExtension = project.extensions.findByType(BaseExtension::class.java)
-//        baseExtension?.registerTransform(NanTransform(project))
+        println("NavPlugin applied...")
 
-        // 只在应用了 Android Application 插件的模块中注册 Transform
-        project.plugins.withId("com.android.application") {
-            val androidExtension = project.extensions.findByType(BaseExtension::class.java)
-            androidExtension?.registerTransform(NavTransform(project))
+        // 遍历 App 模块中的 variants（Groovy build.gradle 里可以传参数）
+        project.afterEvaluate {
+            val android = project.extensions.findByName("android")
+            if (android == null) {
+                println("Not an Android module, NavPlugin skipped")
+                return@afterEvaluate
+            }
+
+            val buildTypes =
+                android::class.java.getMethod("getBuildTypes").invoke(android) as Map<*, *>
+            buildTypes.keys.forEach { buildTypeName ->
+                val taskName = "navInjectTask${buildTypeName.toString().capitalize()}"
+                val taskProvider = project.tasks.register(taskName, NavInjectTask::class.java)
+                taskProvider.configure { task ->
+                    task.variantName = buildTypeName.toString()
+                    task.classesDir =
+                        File(project.buildDir, "intermediates/javac/${buildTypeName}/classes")
+                }
+
+            }
+
         }
     }
 
+}
+
+abstract class NavInjectTask : DefaultTask() {
+    lateinit var variantName: String
+    lateinit var classesDir: File
+    
 }

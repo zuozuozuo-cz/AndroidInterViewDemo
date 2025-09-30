@@ -10,7 +10,7 @@ java {
 }
 
 group = "com.example.jetpack_plgin"
-version = "1.0.4"
+version = "1.0.5"
 
 kotlin {
     compilerOptions {
@@ -19,8 +19,11 @@ kotlin {
 }
 dependencies {
     //Groovy DSL
-    implementation gradleApi()
-    implementation libs.bundles.nav.plugin
+//    implementation gradleApi()
+//    implementation libs.bundles.nav.plugin
+    implementation gradleApi()       // Gradle API
+    implementation localGroovy()     // Groovy API
+    implementation "org.ow2.asm:asm:9.5" // ASM 字节码库
     implementation 'com.dazuozuo.jetpack:nav-plugin-runtime:1.0.0'
 }
 

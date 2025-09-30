@@ -7,7 +7,6 @@ import com.example.base_lib.db.BaseDatabase
 import com.example.base_lib.executors.AppExecutors
 import com.example.data_lib.member.dao.SnhDao
 import com.example.data_lib.member.entity.SnhMemberEntity
-import com.example.data_lib.zhihu.converter.Converters
 import com.example.data_lib.zhihu.converter.DateConverter
 import com.example.data_lib.zhihu.dao.EssayDao
 import com.example.data_lib.zhihu.dao.ZhihuDao
