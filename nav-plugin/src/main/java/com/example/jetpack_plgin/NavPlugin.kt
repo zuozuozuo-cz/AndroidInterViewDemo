@@ -1,5 +1,6 @@
 package com.example.jetpack_plgin
 
+import NavTransform
 import com.android.build.gradle.BaseExtension
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
@@ -10,12 +11,18 @@ class NavPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         println("NavPlugin apply......")
         // 当模块中是否有ApplicationPlugin插件，这个只有App模块才有
-        val applicationPlugin = project.plugins.findPlugin(ApplicationPlugin::class.java)
-        assert(applicationPlugin == null)
-        throw GradleException("NavPlugin can only be applyed to app module")
+//        val applicationPlugin = project.plugins.findPlugin(ApplicationPlugin::class.java)
+//        assert(applicationPlugin == null)
+//        throw GradleException("NavPlugin can only be applyed to app module")
         // 注册自定义插件
-        val baseExtension = project.extensions.findByType(BaseExtension::class.java)
-        baseExtension?.registerTransform(NanTransform(project))
+//        val baseExtension = project.extensions.findByType(BaseExtension::class.java)
+//        baseExtension?.registerTransform(NanTransform(project))
+
+        // 只在应用了 Android Application 插件的模块中注册 Transform
+        project.plugins.withId("com.android.application") {
+            val androidExtension = project.extensions.findByType(BaseExtension::class.java)
+            androidExtension?.registerTransform(NavTransform(project))
+        }
     }
 
 }

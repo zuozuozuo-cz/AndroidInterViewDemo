@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace 'com.example.androidinterviewdemo'
-    compileSdk 35
+    compileSdk libs.versions.compileSdk.get().toInteger()
 
     defaultConfig {
         applicationId "com.example.androidinterviewdemo"
-        minSdk 26
-        targetSdk 35
+        minSdk libs.versions.minSdk.get().toInteger()
+        targetSdk libs.versions.targetSdk.get().toInteger()
         versionCode 1
         versionName "1.0"
 
@@ -55,11 +55,23 @@ dependencies {
 //    kapt "com.alibaba:arouter-compiler:$arouter_version"
     implementation project(":base_lib")
     implementation project(":data_lib")
-    implementation project(":mvvm_study")
+//    implementation project(":mvvm_study")
     implementation project(":jetpack_study")
 }
 kapt {
     arguments {
         arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}
+
+allprojects {
+    configurations.all {
+        resolutionStrategy {
+            // 强制使用指定的 lifecycle 版本
+            force "androidx.lifecycle:lifecycle-runtime-ktx:2.6.2"
+            force "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2"
+            force "androidx.lifecycle:lifecycle-livedata-ktx:2.6.2"
+            force "androidx.lifecycle:lifecycle-common:2.6.2"
+        }
     }
 }

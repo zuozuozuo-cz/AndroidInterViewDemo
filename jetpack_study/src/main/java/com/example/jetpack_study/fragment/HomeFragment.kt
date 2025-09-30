@@ -5,11 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.example.jetpack.plugin.runtime.NavDestination
 import com.example.jetpack_study.R
 import com.example.jetpack_study.databinding.FragmentHomeBinding
 
-@NavDestination(type = NavDestination.NavType.Fragment, route = "")
 class HomeFragment : BaseFragment() {
 
     private lateinit var binding: FragmentHomeBinding

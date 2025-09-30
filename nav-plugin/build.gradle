@@ -1,12 +1,16 @@
 plugins {
-    id 'java-library'
+    id 'java-gradle-plugin'
     alias(libs.plugins.jetbrains.kotlin.jvm)
+    id 'maven-publish' // 添加发布插件
 }
 
 java {
     sourceCompatibility JavaVersion.VERSION_11
     targetCompatibility JavaVersion.VERSION_11
 }
+
+group = "com.example.jetpack_plgin"
+version = "1.0.4"
 
 kotlin {
     compilerOptions {
@@ -18,4 +22,30 @@ dependencies {
     implementation gradleApi()
     implementation libs.bundles.nav.plugin
     implementation 'com.dazuozuo.jetpack:nav-plugin-runtime:1.0.0'
+}
+
+gradlePlugin {
+    plugins {
+        create("navPlugin") {
+            id = "com.example.jetpack_plgin.navplugin"  // 插件 id
+            implementationClass = "com.example.jetpack_plgin.NavPlugin"  // 你的插件入口类
+        }
+    }
+}
+
+publishing {
+//    publications {
+//        // 这里需要 pluginMaven 发布插件
+//        // mavenJava(MavenPublication) {
+//        pluginMaven(MavenPublication) {
+//            from(components["kotlin"])
+//            groupId = project.group.toString()
+//            artifactId = "nav-plugin"
+//            version = project.version.toString()
+//        }
+//    }
+
+    repositories {
+        mavenLocal() // 发布到本地 Maven
+    }
 }

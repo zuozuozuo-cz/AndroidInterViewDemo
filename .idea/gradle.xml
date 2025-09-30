@@ -6,7 +6,7 @@
       <GradleProjectSettings>
         <option name="testRunner" value="CHOOSE_PER_TEST" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="#GRADLE_LOCAL_JAVA_HOME" />
+        <option name="gradleJvm" value="ms-11" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -15,9 +15,7 @@
             <option value="$PROJECT_DIR$/data_lib" />
             <option value="$PROJECT_DIR$/jetpack_study" />
             <option value="$PROJECT_DIR$/kotlin_study" />
-            <option value="$PROJECT_DIR$/mvvm_study" />
             <option value="$PROJECT_DIR$/nav-plugin" />
-            <option value="$PROJECT_DIR$/nav-plugin-runtime" />
           </set>
         </option>
       </GradleProjectSettings>
