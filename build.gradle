@@ -1,14 +1,11 @@
 // build.gradle (Project)
 
 buildscript {
-    // buildscript 一定要放在最前面
-    repositories {
-        google()
-        mavenCentral()
-    }
+
     dependencies {
         // ARouter 自动注册插件（可选）
         classpath "com.alibaba:arouter-register:1.0.2"
+        // classpath "com.example.nav_plugin:navplugin:1.0.0"
     }
 }
 

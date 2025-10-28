@@ -1,7 +1,8 @@
 plugins {
-    id 'java-gradle-plugin'
+    id 'java-library'
     alias(libs.plugins.jetbrains.kotlin.jvm)
-    id 'maven-publish' // 添加发布插件
+    id 'java-gradle-plugin'
+    id 'maven-publish'
 }
 
 java {
@@ -9,46 +10,52 @@ java {
     targetCompatibility JavaVersion.VERSION_11
 }
 
-group = "com.example.jetpack_plgin"
-version = "1.0.5"
-
 kotlin {
     compilerOptions {
         jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
     }
 }
-dependencies {
-    //Groovy DSL
-//    implementation gradleApi()
-//    implementation libs.bundles.nav.plugin
-    implementation gradleApi()       // Gradle API
-    implementation localGroovy()     // Groovy API
-    implementation "org.ow2.asm:asm:9.5" // ASM 字节码库
-    implementation 'com.dazuozuo.jetpack:nav-plugin-runtime:1.0.0'
-}
+
+group 'com.example.nav_plugin'
+version '1.0.0'
 
 gradlePlugin {
     plugins {
-        create("navPlugin") {
-            id = "com.example.jetpack_plgin.navplugin"  // 插件 id
-            implementationClass = "com.example.jetpack_plgin.NavPlugin"  // 你的插件入口类
+        DependenciesPlugin {
+            // 引用的时候的ID
+            id = 'com.example.nav_plugin.navplugin'
+            // 自定义的类
+            implementationClass = 'com.example.nav_plugin.NavPlugin'
         }
     }
 }
 
 publishing {
-//    publications {
-//        // 这里需要 pluginMaven 发布插件
-//        // mavenJava(MavenPublication) {
-//        pluginMaven(MavenPublication) {
-//            from(components["kotlin"])
-//            groupId = project.group.toString()
-//            artifactId = "nav-plugin"
-//            version = project.version.toString()
-//        }
-//    }
+    publications {
+        maven(MavenPublication){
+            groupId = group
+            artifactId = 'navplugin'
+            version = version
+
+            from components.java
+        }
+    }
 
     repositories {
-        mavenLocal() // 发布到本地 Maven
+        maven {
+            url layout.buildDirectory.dir("maven-repo")
+        }
     }
+}
+
+dependencies {
+    // Gradle Plugin 开发 API（稳定 API）
+    compileOnly(gradleApi())
+
+    // Android Gradle Plugin API（提供 AndroidComponentsExtension）
+    compileOnly("com.android.tools.build:gradle:8.7.1")
+
+    // 可选：如果用 ASM 修改字节码
+    implementation("org.ow2.asm:asm:9.6")
+    implementation("org.ow2.asm:asm-commons:9.6")
 }
