@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.jetpack_study.R
 import com.example.jetpack_study.databinding.FragmentHomeBinding
+import com.example.nav_plugin_runtime.NavDestination
+import com.example.nav_plugin_runtime.NavType
 
+@NavDestination(NavType.Fragment, "home_fragment")
 class HomeFragment : BaseFragment() {
 
     private lateinit var binding: FragmentHomeBinding

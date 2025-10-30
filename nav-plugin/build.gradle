@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.jvm)
     id 'java-gradle-plugin'
     id 'maven-publish'
+    id 'com.example.nav_plugin_runtime' version('1.0.0')
 }
 
 java {
@@ -43,7 +44,9 @@ publishing {
 
     repositories {
         maven {
-            url layout.buildDirectory.dir("maven-repo")
+            // 这里是发布到项目的 build 文件中，每次clean 都会清掉
+            // url layout.buildDirectory.dir("maven-repo")
+            mavenLocal()
         }
     }
 }
@@ -58,4 +61,6 @@ dependencies {
     // 可选：如果用 ASM 修改字节码
     implementation("org.ow2.asm:asm:9.6")
     implementation("org.ow2.asm:asm-commons:9.6")
+    // implementation project(":nav-plugin-runtime")
+    implementation("com.squareup:kotlinpoet:1.15.0")
 }

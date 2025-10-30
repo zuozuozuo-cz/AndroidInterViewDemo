@@ -13,6 +13,7 @@ pluginManagement {
         maven {
             url './nav-plugin/build/maven-repo'
         }
+        mavenLocal()
     }
 }
 // 依赖管理 普通依赖（App/Lib 需要的库） 项目编译阶段
@@ -32,3 +33,4 @@ include ':jetpack_study'
 include ':base_lib'
 include ':data_lib'
 include ':nav-plugin'
+include ':nav-plugin-runtime'
