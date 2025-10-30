@@ -56,7 +56,7 @@ dependencies {
     kapt(libs.arouter.compiler)
     implementation project(":base_lib")
     implementation project(':data_lib')
-    // implementation project(":nav-plugin-runtime")
+    implementation("com.example.nav_plugin_runtime:NavPluginRuntime:1.0.0")
 }
 
 kapt {

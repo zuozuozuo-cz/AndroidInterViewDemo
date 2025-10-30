@@ -1,6 +1,8 @@
 package com.example.nav_plugin
 
 
+import com.example.nav_plugin.NavPluginContent.KEY_ROUTE
+import com.example.nav_plugin.NavPluginContent.KEY_TYPE
 import com.example.nav_plugin.NavPluginContent.NAV_RUNTIME_DESTINATION
 import com.example.nav_plugin.NavPluginContent.NAV_RUNTIME_MODULE_NAME
 import com.example.nav_plugin.NavPluginContent.NAV_RUNTIME_PKG_NAME
@@ -49,16 +51,18 @@ abstract class NavTransformTask : DefaultTask() {
 
     @TaskAction
     fun transform() {
-        print("==================== NavTransformTask Running ====================")
-        val result = mutableListOf<String>()
+        print("==================== NavTransformTask Running ==================== \n")
 
         // 遍历工程内所有的Jar
         allJars.get().forEach { jarFile ->
-            processJarFile(jarFile.asFile, result)
+            processJarFile(jarFile.asFile)
         }
         // 遍历工程内又有的class
         allDire.get().forEach { classFile ->
-            processClassFile(classFile.asFile, result)
+            val file = classFile.asFile
+            if (file.exists()) {
+//                processClassFileOrDir(file)
+            }
         }
         generateNavNavRegistry(navDatas)
         val outFile = outputJar.get().asFile
@@ -73,6 +77,98 @@ abstract class NavTransformTask : DefaultTask() {
 
         mapFile.parentFile.mkdirs()
         mapFile.writeText("Transform executed for ${project.name}")
+    }
+
+    fun processClassFileOrDir(file: File) {
+        if (file.isDirectory) {
+            file.listFiles().forEach {
+                processClassFileOrDir(it)
+            }
+        } else {
+            if (file.isFile && file.name.endsWith(".class")) {
+                processClassFile(file)
+            }
+        }
+    }
+
+    fun processClassFile(
+        classFile: File
+    ) {
+        classFile.inputStream().use { input ->
+            val classReader = ClassReader(input)
+            val classVisitor = object : ClassVisitor(Opcodes.ASM9) {
+                override fun visit(
+                    version: Int,
+                    access: Int,
+                    name: String?,
+                    signature: String?,
+                    superName: String?,
+                    interfaces: Array<out String?>?
+                ) {
+                    print("---------> processClassFile name = ${name} \n")
+                }
+
+                override fun visitAnnotation(
+                    descriptor: String?,
+                    visible: Boolean
+                ): AnnotationVisitor? {
+                    // 不是我们自定义的注解，返回一个空的注解处理
+                    print("---------> Annotation name = ${descriptor} \n")
+                    if (descriptor != NAV_RUNTIME_DESTINATION) {
+                        return object : AnnotationNode(Opcodes.ASM9, "") {
+
+                        }
+                    }
+                    val annotationVisitor = object : AnnotationNode(Opcodes.ASM9, "") {
+                        var route: String = ""
+                        var type: NavType = NavType.None
+
+                        // 注解中是基本数据类型的时候 回调这里
+                        override fun visit(name: String?, value: Any?) {
+                            super.visit(name, value)
+                            if (name == KEY_ROUTE) {
+                                route = value as String
+                            }
+                        }
+
+                        override fun visitAnnotation(
+                            name: String?,
+                            descriptor: String?
+                        ): AnnotationVisitor? {
+                            return super.visitAnnotation(name, descriptor)
+                        }
+
+                        // 注解中是数组的时候 回调这里
+                        override fun visitArray(name: String?): AnnotationVisitor? {
+                            return super.visitArray(name)
+                        }
+
+                        // 注解中是枚举的时候 回调这里
+                        override fun visitEnum(name: String?, descriptor: String?, value: String?) {
+                            super.visitEnum(name, descriptor, value)
+                            if (name == KEY_TYPE) {
+                                assert(value == null) {
+                                    throw GradleException("key type can not be null !!!")
+                                }
+                                type = NavType.valueOf(value!!)
+                            }
+
+                        }
+
+                        override fun visitEnd() {
+                            super.visitEnd()
+                            // 生成NavData 对象
+                            val navData =
+                                NavData(route, classReader.className.replace("/", "."), type)
+                            navDatas.add(navData)
+                        }
+                    }
+                    return annotationVisitor
+                }
+            }
+
+            classReader.accept(classVisitor, ClassReader.SKIP_DEBUG)
+        }
     }
 
     /**
@@ -156,102 +252,19 @@ abstract class NavTransformTask : DefaultTask() {
 
     }
 
-    fun processClassFile(
-        classFile: File,
-        result: MutableList<String>
-    ) {
-        classFile.inputStream().use { input ->
-            val classReader = ClassReader(input)
-            val classVisitor = object : ClassVisitor(Opcodes.ASM9) {
-                var className: String? = null
-                override fun visit(
-                    version: Int,
-                    access: Int,
-                    name: String?,
-                    signature: String?,
-                    superName: String?,
-                    interfaces: Array<out String?>?
-                ) {
-                    print("---------> processClassFile name = ${name}")
-                    className = name
-                }
-
-                override fun visitAnnotation(
-                    descriptor: String?,
-                    visible: Boolean
-                ): AnnotationVisitor? {
-                    // 不是我们自定义的注解，返回一个空的注解处理
-                    if (descriptor != NavPluginContent.NAV_RUNTIME_DESTINATION) {
-                        return object : AnnotationNode(Opcodes.ASM9, "") {
-
-                        }
-                    }
-                    val annotationVisitor = object : AnnotationNode(Opcodes.ASM9, "") {
-                        var route: String = ""
-                        var type: NavType = NavType.None
-
-                        // 注解中是基本数据类型的时候 回调这里
-                        override fun visit(name: String?, value: Any?) {
-                            super.visit(name, value)
-                            if (name == NavPluginContent.KEY_ROUTE) {
-                                route = value as String
-                            }
-                        }
-
-                        override fun visitAnnotation(
-                            name: String?,
-                            descriptor: String?
-                        ): AnnotationVisitor? {
-                            return super.visitAnnotation(name, descriptor)
-                        }
-
-                        // 注解中是数组的时候 回调这里
-                        override fun visitArray(name: String?): AnnotationVisitor? {
-                            return super.visitArray(name)
-                        }
-
-                        // 注解中是枚举的时候 回调这里
-                        override fun visitEnum(name: String?, descriptor: String?, value: String?) {
-                            super.visitEnum(name, descriptor, value)
-                            if (name == NavPluginContent.KEY_TYPE) {
-                                assert(value == null) {
-                                    throw GradleException("key type can not be null !!!")
-                                }
-                                type = NavType.valueOf(value!!)
-                            }
-
-                        }
-
-                        override fun visitEnd() {
-                            super.visitEnd()
-                            // 生成NavData 对象
-                        }
-                    }
-                    result.add("Found @MyRoute on class: ${className?.replace('/', '.')}")
-
-                    return annotationVisitor
-                }
-            }
-
-            classReader.accept(classVisitor, ClassReader.SKIP_DEBUG)
-        }
-    }
 
     fun processJarFile(
-        file: File,
-        result: MutableList<String>
+        file: File
     ) {
+        print("==================== processJarFile ==================== \n")
         JarFile(file).use { jarFile ->
             val entries = jarFile.entries()
             while (entries.hasMoreElements()) {
                 val entry = entries.nextElement()
-                print("---------> processJarFile entry = ${entry.name}")
                 if (entry.name.endsWith(".class")) {
                     jarFile.getInputStream(entry).use { input ->
                         val classReader = ClassReader(input)
                         val classVisitor = object : ClassVisitor(Opcodes.ASM9) {
-                            var className: String? = null
-
                             override fun visit(
                                 version: Int,
                                 access: Int,
@@ -260,25 +273,54 @@ abstract class NavTransformTask : DefaultTask() {
                                 superName: String?,
                                 interfaces: Array<out String?>?
                             ) {
-                                print("---------> visit class = ${name}")
-                                className = name
+                                print("---------> visit class = ${name} \n")
                             }
 
                             override fun visitAnnotation(
                                 descriptor: String?,
                                 visible: Boolean
                             ): AnnotationVisitor? {
-                                if (descriptor == NAV_RUNTIME_DESTINATION) {
-                                    result.add(
-                                        "Found @MyRoute on class: ${
-                                            className?.replace(
-                                                '/',
-                                                '.'
-                                            )
-                                        }"
-                                    )
+                                print("---------> visit descriptor = ${descriptor} \n")
+                                if (descriptor != NAV_RUNTIME_DESTINATION) {
+                                    return object : AnnotationNode(Opcodes.ASM9, "") {
+
+                                    }
                                 }
-                                return super.visitAnnotation(descriptor, visible)
+                                var node = object : AnnotationNode(Opcodes.ASM9, "") {
+                                    var type = NavType.None
+                                    var route = ""
+
+                                    override fun visit(name: String?, value: Any?) {
+                                        super.visit(name, value)
+                                        if (name == KEY_ROUTE) {
+                                            route = value as String
+                                        }
+                                    }
+
+                                    override fun visitEnum(
+                                        name: String?,
+                                        descriptor: String?,
+                                        value: String?
+                                    ) {
+                                        super.visitEnum(name, descriptor, value)
+                                        if (descriptor == KEY_TYPE) {
+                                            type = NavType.valueOf(value!!)
+                                        }
+                                    }
+
+
+                                    override fun visitEnd() {
+                                        super.visitEnd()
+                                        val navData = NavData(
+                                            route,
+                                            classReader.className.replace("/", "."),
+                                            type
+                                        )
+                                        navDatas.add(navData)
+                                    }
+
+                                }
+                                return node
                             }
                         }
                         classReader.accept(classVisitor, ClassReader.SKIP_DEBUG)

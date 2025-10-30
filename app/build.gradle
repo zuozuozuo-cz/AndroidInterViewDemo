@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
-    id("com.example.nav_plugin.navplugin") version "1.0.0"
+    id("com.example.nav_plugin.navplugin") version "1.0.6"
 }
 
 android {

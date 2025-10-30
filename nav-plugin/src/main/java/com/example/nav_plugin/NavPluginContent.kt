@@ -1,8 +1,8 @@
 package com.example.nav_plugin
 
 object NavPluginContent {
-    const val NAV_RUNTIME_DESTINATION: String = ""
-    const val NAV_RUNTIME_NAV_TYPE: String = ""
+    const val NAV_RUNTIME_DESTINATION: String = "qq"
+    const val NAV_RUNTIME_NAV_TYPE: String = "qq"
 
     const val KEY_ROUTE = "route"
     const val KEY_TYPE = "type"

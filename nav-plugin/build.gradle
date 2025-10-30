@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.jvm)
     id 'java-gradle-plugin'
     id 'maven-publish'
-    id 'com.example.nav_plugin_runtime' version('1.0.0')
 }
 
 java {
@@ -18,7 +17,7 @@ kotlin {
 }
 
 group 'com.example.nav_plugin'
-version '1.0.0'
+version '1.0.6'
 
 gradlePlugin {
     plugins {
@@ -63,4 +62,5 @@ dependencies {
     implementation("org.ow2.asm:asm-commons:9.6")
     // implementation project(":nav-plugin-runtime")
     implementation("com.squareup:kotlinpoet:1.15.0")
+    implementation("com.example.nav_plugin_runtime:NavPluginRuntime:1.0.0")
 }
